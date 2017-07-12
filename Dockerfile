@@ -13,6 +13,7 @@ RUN apk update \
 		grep \
 		bash \
 		su-exec \
+		libxml2-utils \
 	&& git clone https://github.com/lukas2511/dehydrated /dehydrated 
 
 ADD root /
