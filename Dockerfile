@@ -3,7 +3,7 @@ MAINTAINER Jan Christian Grünhage <jan.christian@gruenhage.xyz>
 
 ENV	UID=192 \
 	GID=192 \
-	STAGING=1 \
+	STAGING=0 \
 	CHALLENGE="dns-01"
 
 # Set STAGING to false(0) by default, set to true(1) to use staging LE-Endpoint
