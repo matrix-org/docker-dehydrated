@@ -1,5 +1,5 @@
 #!/bin/bash
-s6-svc -O /etc/s6.d/dehydrated
+s6-svc -O /etc/s6.d/setup
 
 # Check if and which configuration file exists
 CONFIGFILE="none"
