@@ -9,7 +9,7 @@ for check_config in "/etc/dehydrated" "/usr/local/etc/dehydrated" "${PWD}" "${SC
 	fi
 done
 
-# At this point, no configuration file exists, so copy the example into /etc/dehydrated
+# At this point, if no configuration file exists, copy the example into /etc/dehydrated
 if [[ "$CONFIGFILE" == "none" ]]; then
 	cp /dehydrated/docs/examples/config /etc/dehydrated/config
 	CONFIGFILE="/etc/dehydrated/config"
@@ -19,8 +19,8 @@ fi
 case "$ENDPOINT" in
 	"staging")
 		# If CA=... is commented, uncomment and set it to staging, if it is set to production, set it to staging
-		sed -ie 's/#CA=.*$/CA="https:\/\/acme-staging.api.letsencrypt.org\/directory/g' $CONFIGFILE
-		sed -ie 's/CA=.+acme-v01\.api\..+$/CA="https:\/\/acme-staging.api.letsencrypt.org\/directory/g' $CONFIGFILE
+		sed -ie 's/#CA=.*$/CA="https:\/\/acme-staging.api.letsencrypt.org\/directory"/g' $CONFIGFILE
+		sed -ie 's/CA=.+acme-v01\.api\..+$/CA="https:\/\/acme-staging.api.letsencrypt.org\/directory"/g' $CONFIGFILE
 		# Same procedure for CA_TERMS=...
 		sed -ie 's/#CA_TERMS=.*$/CA_TERMS="https:\/\/acme-staging.api.letsencrypt.org\/terms"/g' $CONFIGFILE
 		sed -ie 's/CA_TERMS=.+acme-v01\.api\..+$/CA_TERMS="https:\/\/acme-staging.api.letsencrypt.org\/terms"/g' $CONFIGFILE
@@ -28,11 +28,13 @@ case "$ENDPOINT" in
 	"production")
 		# If CA=... is  commented, uncomment and set to production, if it was set to staging, set it to production
 		sed -ie 's/#CA=.*$/CA="https:\/\/acme-v01.api.letsencrypt.org\/directory"/g' $CONFIGFILE
-		sed -ie 's/CA=.+acme-staging\.api\..+$/https:\/\/acme-v01.api.letsencrypt.org\/directory/g' $CONFIGFILE
+		sed -ie 's/CA=.+acme-staging\.api\..+$/https:\/\/acme-v01.api.letsencrypt.org\/directory"/g' $CONFIGFILE
 		# Same thing for CA_TERMS=...
 		sed -ie 's/#CA_TERMS=.*$/CA_TERMS="https:\/\/acme-v01.api.letsencrypt.org\/terms"/g' $CONFIGFILE
 		sed -ie 's/CA_TERMS=.+acme-staging\.api\..+$/CA_TERMS="https:\/\/acme-v01.api.letsencrypt.org\/terms"/g' $CONFIGFILE
+	;;
 	*)
+		echo "INFO: No endpoint was specifically set, dehydrated will use its default"
 	;;
 esac
 
@@ -51,5 +53,6 @@ case "$CHALLENGE" in
 		sed -ie 's/CHALLENGETYPE=.+$/CHALLENGETYPE="dns-01"/g' $CONFIGFILE
 	;;
 	*)
+		echo "INFO: No challenge-type was specified, the default from dehydrated will be used"
 	;;
 esac
