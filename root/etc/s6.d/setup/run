@@ -1,0 +1,55 @@
+#!/bin/bash
+s6-svc -O /etc/s6.d/dehydrated
+
+# Check if and which configuration file exists
+CONFIGFILE="none"
+for check_config in "/etc/dehydrated" "/usr/local/etc/dehydrated" "${PWD}" "${SCRIPTDIR}"; do
+	if [[ -f "${check_config}/config" ]]; then
+		CONFIGFILE="${check_config}/config"
+	fi
+done
+
+# At this point, no configuration file exists, so copy the example into /etc/dehydrated
+if [[ "$CONFIGFILE" == "none" ]]; then
+	cp /dehydrated/docs/examples/config /etc/dehydrated/config
+	CONFIGFILE="/etc/dehydrated/config"
+fi
+
+# Determine if the staging endpoint should be used
+case "$ENDPOINT" in
+	"staging")
+		# If CA=... is commented, uncomment and set it to staging, if it is set to production, set it to staging
+		sed -ie 's/#CA=.*$/CA="https:\/\/acme-staging.api.letsencrypt.org\/directory/g' $CONFIGFILE
+		sed -ie 's/CA=.+acme-v01\.api\..+$/CA="https:\/\/acme-staging.api.letsencrypt.org\/directory/g' $CONFIGFILE
+		# Same procedure for CA_TERMS=...
+		sed -ie 's/#CA_TERMS=.*$/CA_TERMS="https:\/\/acme-staging.api.letsencrypt.org\/terms"/g' $CONFIGFILE
+		sed -ie 's/CA_TERMS=.+acme-v01\.api\..+$/CA_TERMS="https:\/\/acme-staging.api.letsencrypt.org\/terms"/g' $CONFIGFILE
+	;;
+	"production")
+		# If CA=... is  commented, uncomment and set to production, if it was set to staging, set it to production
+		sed -ie 's/#CA=.*$/CA="https:\/\/acme-v01.api.letsencrypt.org\/directory"/g' $CONFIGFILE
+		sed -ie 's/CA=.+acme-staging\.api\..+$/https:\/\/acme-v01.api.letsencrypt.org\/directory/g' $CONFIGFILE
+		# Same thing for CA_TERMS=...
+		sed -ie 's/#CA_TERMS=.*$/CA_TERMS="https:\/\/acme-v01.api.letsencrypt.org\/terms"/g' $CONFIGFILE
+		sed -ie 's/CA_TERMS=.+acme-staging\.api\..+$/CA_TERMS="https:\/\/acme-v01.api.letsencrypt.org\/terms"/g' $CONFIGFILE
+	*)
+	;;
+esac
+
+# Determine which type of challenge should be used
+case "$CHALLENGE" in
+	"http-01")
+		# If we have a "fresh" config, uncomment the challengetype-line and set our value
+		sed -ie 's/#CHALLENGETYPE=.*$/CHALLENGETYPE="http-01"/g' $CONFIGFILE
+		# If a challengetype is already set, overwrite it
+		sed -ie 's/CHALLENGETYPE=.+$/CHALLENGETYPE="http-01"/g' $CONFIGFILE
+	;;
+	"dns-01")
+		# If we have the default config, uncomment the line and set our challengetype
+		sed -ie 's/#CHALLENGETYPE=.*$/CHALLENGETYPE="dns-01"/g' $CONFIGFILE
+		# If a challengetype was already set, overwrite it with the new value
+		sed -ie 's/CHALLENGETYPE=.+$/CHALLENGETYPE="dns-01"/g' $CONFIGFILE
+	;;
+	*)
+	;;
+esac
