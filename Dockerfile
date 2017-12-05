@@ -14,10 +14,10 @@ RUN apk update \
 		bash \
 		su-exec \
 		libxml2-utils \
-	&& git clone https://github.com/lukas2511/dehydrated /dehydrated 
+	&& git clone https://github.com/lukas2511/dehydrated /dehydrated
 
+# Add the files in the 'root' folder to the images filesystem
 ADD root /
-
 
 VOLUME /etc/dehydrated
 VOLUME /var/www/dehydrated

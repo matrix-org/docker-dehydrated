@@ -1,3 +1,11 @@
 #!/bin/sh
 s6-svc -O /etc/s6.d/dehydrated
+
+# Set ownership to dehydrated on the relevant folders
+chown -R ${UID}:${GID} /etc/dehydrated /certs /var/www/dehydrated
+
+# Register to the CA
+su-exec ${UID}:${GID} /dehydrated/dehydrated --register --accept-terms
+
+# Run the weekly script once
 /etc/periodic/weekly/dehydrated
