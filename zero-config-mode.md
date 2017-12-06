@@ -13,7 +13,7 @@ for creating certificates using the HTTP-Challenge:
 
 Now create a folder in which dehydrated can push the challenge-data later, in this tutorial it
 will be called ``dehydrated-www``. Configure your Webserver to serve the contents of this folder
-under ``domain``/.well-known/ (for all domains which you want to create certificates for).
+under ``domain``/.well-known/ (for all domains for which you want to create certificates).
 
 Next create another folder in which dehydrated will place its configuration, certificates etc.,
 in this tutorial it will be called ``dehydrated-data``. In this folder, create a file called
@@ -32,11 +32,15 @@ not need to pass environment variables to alter the default behaviour. To run th
 execute:
 
 ```bash
-$ docker run -v ./dehydrated-www:/var/www/dehydrated -v ./dehydrated-data:/etc/dehydrated jcgruenhage/dehydrated
+$ docker run -v ./dehydrated-www:/var/www/dehydrated \
+-v ./dehydrated-data:/etc/dehydrated jcgruenhage/dehydrated
 ```
 
 Please note that on SELinux-Systems, you need to set the "SELinux"-Flag when passing volumes:
 ``./dehydrated-www:/var/www/dehydrated:z`` (analog for ``dehydrated-data``).
 
 Also, the container will ``chown`` the folders passed to himself, so make sure your webserver can
-still server the contents of ``dehydrated-www``.
+still serve the contents of ``dehydrated-www``.
+
+After the challenges have been run, the certificates will be stored in ``dehydrated-data/certs``,
+make sure to back this folder up!
