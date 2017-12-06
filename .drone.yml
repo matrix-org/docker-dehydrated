@@ -1,0 +1,7 @@
+pipeline:
+        docker:
+                image: plugins/docker
+                repo: docker.jcg.re/dehydrated
+                registry: docker.jcg.re
+                secrets: [ docker_username, docker_password ]
+                tags: latest
