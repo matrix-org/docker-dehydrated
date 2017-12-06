@@ -33,7 +33,7 @@ execute:
 
 ```bash
 $ docker run -v ./dehydrated-www:/var/www/dehydrated \
--v ./dehydrated-data:/etc/dehydrated jcgruenhage/dehydrated
+-v ./dehydrated-data:/etc/dehydrated docker.jcg.re/dehydrated
 ```
 
 Please note that on SELinux-Systems, you need to set the "SELinux"-Flag when passing volumes:

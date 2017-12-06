@@ -1,5 +1,7 @@
 # docker-dehydrated
 
+[![Build Status](https://drone.jcg.re/api/badges/jcgruenhage/tex-docs/status.svg)](https://drone.jcg.re/jcgruenhage/docker-dehydrated)
+
 This is a docker container that wraps around [dehydrated](https://github.com/lukas2511/dehydrated).
 
 ## Usage
