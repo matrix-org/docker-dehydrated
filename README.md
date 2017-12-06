@@ -7,7 +7,7 @@ This is a docker container that wraps around [dehydrated](https://github.com/luk
 ## Usage
 
 For a short tutorial on how to use this container with zero-configuration to sign certificates
-using the HTTP-Challenge, see [zero-config-mode.md]("Zero-Config"-Mode).
+using the HTTP-Challenge, see ["Zero-Config"-Mode"](zero-config-mode.md).
 
 ## Environment variables
 
