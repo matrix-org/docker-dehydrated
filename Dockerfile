@@ -1,4 +1,4 @@
-FROM jcgruenhage/baseimage-alpine
+FROM docker.jcg.re/base-alpine
 MAINTAINER Jan Christian Grünhage <jan.christian@gruenhage.xyz>
 
 ENV	UID=192 \
