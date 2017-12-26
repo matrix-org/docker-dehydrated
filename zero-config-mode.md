@@ -13,7 +13,7 @@ for creating certificates using the HTTP-Challenge:
 
 Now create a folder in which dehydrated can push the challenge-data later, in this tutorial it
 will be called ``dehydrated-www``. Configure your Webserver to serve the contents of this folder
-under ``domain``/.well-known/ (for all domains for which you want to create certificates).
+under ``domain/.well-known/acme-challenge`` (for all domains for which you want to create certificates).
 
 Next create another folder in which dehydrated will place its configuration, certificates etc.,
 in this tutorial it will be called ``dehydrated-data``. In this folder, create a file called
