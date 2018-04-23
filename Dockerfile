@@ -1,22 +1,26 @@
 FROM docker.jcg.re/base-alpine
-MAINTAINER Jan Christian Grünhage <jan.christian@gruenhage.xyz>
 
-ENV	UID=192 \
-	GID=192
+RUN apk add --no-cache \
+      --virtual .build-deps \
+      git \
+      python3-dev \
+      libffi-dev \
+      build-base \
+      openssl-dev \
+ && apk add --no-cache \
+      --virtual .runtime-deps \
+      openssl \
+      curl \
+      sed \
+      grep \
+      bash \
+      su-exec \
+      libxml2-utils \
+ && git clone https://github.com/lukas2511/dehydrated /dehydrated \
+ && pip3 install requests[security] \
+ && pip3 install dns-lexicon \
+ && apk del .build-deps
 
-RUN apk update \
-	&& apk add --upgrade \
-		git \
-		openssl \
-		curl \
-		sed \
-		grep \
-		bash \
-		su-exec \
-		libxml2-utils \
-	&& git clone https://github.com/lukas2511/dehydrated /dehydrated
-
-# Add the files in the 'root' folder to the images filesystem
 ADD root /
 
 VOLUME /etc/dehydrated
