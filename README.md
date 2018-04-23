@@ -5,22 +5,57 @@
 This is a docker container that wraps around [dehydrated](https://github.com/lukas2511/dehydrated).
 
 ## Usage
+We have short tutorials for two different modi operandi: The `dns-01` and `http-01` challenge.
+Both are fairly easy to use. The `dns-01` challenge requires less effort if your DNS provider
+is supported by [lexicon](https://github.com/AnalogJ/lexicon/#providers), the `http-01` challenge otherwise.
 
-For a short tutorial on how to use this container with zero-configuration to sign certificates
-using the HTTP-Challenge, see ["Zero-Config"-Mode"](zero-config-mode.md).
+For a short tutorial of getting a certificate with this container and the `dns-01` challenge,
+go [here](dns-01.md), for the same using the `http-01` challenge, go [here](http-01.md).
 
-## Environment variables
+## Behaviour
+By default the container will attempt to generate a config as `/data/config`
+with the default values for all the environment variables.
+The defaults are explicitly meant to not work. Things you need to change:
+ - set `DEHYDRATED_ACCEPT_TERMS` to yes, ***after reading letsencrypts ToS***
+ - set `DEHYDRATED_EMAIL` to an email address you own
+ - set `DEHYDRATED_CA` to a production ACME CA, for example letsencrypt's ACME v2 endpoint, "https://acme-v02.api.letsencrypt.org/directory"
+   - Only do this ***after*** you have tried it with the default staging endpoint
+   and it worked and you got the certificates you want. If this fails too often,
+   letsencrypt will block your IP and domain for a week, so do your experiments
+   on the staging endpoint.
 
-The following environment variables can be set to influence the container's behaviour:
-
-- `$ENDPOINT` which ACME-Endpoint you want to use, supported values: "staging", "production" (default).
-- `$CHALLENGE` what type of challenge should be used, supported values: "http-01" (default), "dns-01"
-
-If the environment variables were not explicitely set, no modification to the configuration file is made
-
-## Behaviour on startup
-
-When the container is started, a script is run which looks for the configuration file in the places supported by dehydrated,
-and if no configuration file is found, it will copy the [example configuration file](https://github.com/lukas2511/dehydrated/docs/examples/config)
-into `/etc/dehydrated/config`.
-
+### Advanced configuration
+- `DEHYDRATED_CA`:
+This controls which ACME endpoint dehydrated contacts. The most common value for
+production environments is "https://acme-v02.api.letsencrypt.org/directory",
+while you should use "https://acme-staging-v02.api.letsencrypt.org/directory"
+for experiments.
+- `DEHYDRATED_CHALLENGE`:
+You can either put `dns-01` or `http-01` here, depending on how you want letsencrypt
+to verify that you are allowed to obtain this certificate.
+- `DEHYDRATED_KEYSIZE`:
+This defaults to `4096`, but you could also put `2048` or `3072` here, if you want
+less secure but slightly faster keys. This only makes sense if your host or your clients
+are *very slow*.
+- `DEHYDRATED_HOOK`:
+If you use the `dns-01` challenge, you need to supply a hook script,
+which dehydrated will use to set dns records. The container ships with
+lexicon installed and a lexicon hook in `/usr/local/bin/lexicon-hook`.
+Apart from the `dns-01` challenge, you can also use hooks to deploy newly created
+certificates. For more info see [dehydrated's project page](https://github.com/lukas2511/dehydrated).
+- `DEHYDRATED_RENEW_DAYS`:
+When dehydrated runs, it will check if any certificates need renewal and renew those.
+All certificates which expire in the next `n` days will be renewed, where `n` is the
+number you set here. Default is 30
+- `DEHYDRATED_KEY_RENEW`:
+Set this to yes to make dehydrated renew keys too when renewing certificates, or to
+no to keep the keys.
+- `DEHYDRATED_ACCEPT_TERMS`:
+For the first run this needs to be set to yes, else dehydrated will not work.
+Read the terms of service of letsencrypt before setting this to yes.
+- `DEHYDRATED_EMAIL`:
+Set your email address here.
+- `DEHYDRATED_GENERATE_CONFIG`:
+Set to yes by default. If you want to use a config supplied by you,
+change this to no and put your own config in `/data/config`
+- `UID` and `GID`: You can set the UID and GID of the things run in the docker container here.s

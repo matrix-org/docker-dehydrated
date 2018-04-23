@@ -7,6 +7,7 @@ RUN apk add --no-cache \
       libffi-dev \
       build-base \
       openssl-dev \
+      py2-pip \
  && apk add --no-cache \
       --virtual .runtime-deps \
       openssl \
@@ -16,14 +17,26 @@ RUN apk add --no-cache \
       bash \
       su-exec \
       libxml2-utils \
- && git clone https://github.com/lukas2511/dehydrated /dehydrated \
+      py2-pip \
+      python3 \
+ && mkdir /opt \
+ && git clone https://github.com/lukas2511/dehydrated.git /opt/dehydrated \
  && pip3 install requests[security] \
  && pip3 install dns-lexicon \
+ && pip2 install j2cli[yaml] \
  && apk del .build-deps
+
+ENV \
+    DEHYDRATED_CA="https://acme-staging-v02.api.letsencrypt.org/directory" \
+    DEHYDRATED_CHALLENGE="http-01" \
+    DEHYDRATED_KEYSIZE="4096" \
+    DEHYDRATED_HOOK="" \
+    DEHYDRATED_RENEW_DAYS="30" \
+    DEHYDRATED_KEY_RENEW="yes" \
+    DEHYDRATED_ACCEPT_TERMS="no" \
+    DEHYDRATED_EMAIL="user@example.org" \
+    DEHYDRATED_GENERATE_CONFIG="yes"
 
 ADD root /
 
-VOLUME /etc/dehydrated
-VOLUME /var/www/dehydrated
-VOLUME /certs
-
+VOLUME /data

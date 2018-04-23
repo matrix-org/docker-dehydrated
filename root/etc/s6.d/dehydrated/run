@@ -1,11 +1,18 @@
-#!/bin/sh
+#!/bin/bash
 s6-svc -O /etc/s6.d/dehydrated
 
+# If config generation is turned on, generate a config from the template and current env vars
+if [[ "$DEHYDRATED_GENERATE_CONFIG" == "yes" ]]; then
+	j2 /etc/dehydrated/config.j2 > /data/config
+fi
+
 # Set ownership to dehydrated on the relevant folders
-chown -R ${UID}:${GID} /etc/dehydrated /certs /var/www/dehydrated
+chown -R ${UID}:${GID} /data
 
 # Register to the CA
-su-exec ${UID}:${GID} /dehydrated/dehydrated --register --accept-terms
+if [[ "$DEHYDRATED_ACCEPT_TERMS" == "yes" ]]; then
+	su-exec ${UID}:${GID} /opt/dehydrated/dehydrated --config /data/config --register --accept-terms
+fi
 
 # Run the weekly script once
 /etc/periodic/weekly/dehydrated

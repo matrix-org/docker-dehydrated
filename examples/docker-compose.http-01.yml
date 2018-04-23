@@ -1,0 +1,16 @@
+version: '2'
+services:
+  dehydrated:
+    image: docker.jcg.re/dehydrated
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+    environment:
+      - DEHYDRATED_GENERATE_CONFIG="yes"
+      - DEHYDRATED_CA="https://acme-v02.api.letsencrypt.org/directory"
+      - DEHYDRATED_CHALLENGE="http-01"
+      - DEHYDRATED_KEYSIZE="4096"
+      - DEHYDRATED_RENEW_DAYS="30"
+      - DEHYDRATED_KEY_RENEW="yes"
+      - DEHYDRATED_EMAIL="user@example.org"
+      - DEHYDRATED_ACCEPT_TERMS=no

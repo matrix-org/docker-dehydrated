@@ -1,4 +1,4 @@
 #!/bin/bash
-chown -R ${UID}:${GID} /etc/dehydrated /certs /var/www/dehydrated
+chown -R ${UID}:${GID} /data
 # Run dehydrated
-su-exec ${UID}:${GID} /dehydrated/dehydrated --cron --keep-going
+su-exec ${UID}:${GID} /opt/dehydrated/dehydrated --config /data/config --cron --keep-going
