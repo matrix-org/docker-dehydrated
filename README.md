@@ -1,9 +1,6 @@
 # docker-dehydrated
 
-[![Stars](https://img.shields.io/docker/stars/matrixdotorg/dehydrated.svg)](https://img.shields.io/docker/stars/matrixdotorg/dehydrated.svg)
-[![Pulls](https://img.shields.io/docker/pulls/matrixdotorg/dehydrated.svg)](https://img.shields.io/docker/pulls/matrixdotorg/dehydrated.svg)
-[![Automated](https://img.shields.io/docker/automated/matrixdotorg/dehydrated.svg)](https://img.shields.io/docker/automated/matrixdotorg/dehydrated.svg)
-[![Build Status](https://img.shields.io/docker/build/matrixdotorg/dehydrated.svg)](https://img.shields.io/docker/build/matrixdotorg/dehydrated.svg)
+[![Stars](https://img.shields.io/docker/stars/matrixdotorg/dehydrated.svg)](https://hub.docker.com/r/matrixdotorg/dehydrated/) [![Pulls](https://img.shields.io/docker/pulls/matrixdotorg/dehydrated.svg)](https://hub.docker.com/r/matrixdotorg/dehydrated/) [![Automated](https://img.shields.io/docker/automated/matrixdotorg/dehydrated.svg)](https://hub.docker.com/r/matrixdotorg/dehydrated/) [![Build Status](https://img.shields.io/docker/build/matrixdotorg/dehydrated.svg)](https://hub.docker.com/r/matrixdotorg/dehydrated/)
 
 We use this internally for automating our certificate management using [dehydrated](https://github.com/lukas2511/dehydrated). We do not support this further than needed for our usage, but feel free to use it if you want.
 
