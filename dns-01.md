@@ -4,7 +4,7 @@ For using the container with the  `dns-01`-challenge, you need on your machine:
 
 - docker-compose (and docker obviously)
 
-Download [the docker-compose example](https://git.jcg.re/jcgruenhage/docker-dehydrated/raw/branch/master/examples/docker-compose.dns-01.yml)
+Download [the docker-compose example](https://raw.githubusercontent.com/matrix-org/docker-dehydrated/master/examples/docker-compose.dns-01.yml)
 as `docker-compose.yml` into an empty folder. Inside that folder, create the folder `data`.
 
 Now, create a file `data/domains.txt` in which you list the domains you want to create certificates for,
@@ -16,7 +16,7 @@ using the following format:
 For more information on the format, see [the dehydrated documentation](https://github.com/lukas2511/dehydrated/blob/master/docs/domains_txt.md).
 
 Before running, you need to set a few things in the `docker-compose.yml` file,
-as explained [here in the README](https://git.jcg.re/jcgruenhage/docker-dehydrated#behaviour)
+as explained [here in the README](https://github.com/matrix-org/docker-dehydrated#behaviour)
 
 ## Configuring DNS API access
 

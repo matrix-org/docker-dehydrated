@@ -1,7 +1,7 @@
 version: '2'
 services:
   dehydrated:
-    image: docker.jcg.re/dehydrated
+    image: docker.io/matrixdotorg/dehydrated
     restart: unless-stopped
     volumes:
       - ./data:/data
