@@ -1,4 +1,8 @@
-FROM docker.io/matrixdotorg/base-alpine
+FROM docker.io/alpine:3.8
+LABEL maintainer="Jan Christian Grünhage <jcgruenhage@matrix.org>"
+
+ENV UID=1337 \
+    GID=1337
 
 RUN apk add --no-cache \
       --virtual .build-deps \
@@ -15,6 +19,7 @@ RUN apk add --no-cache \
       sed \
       grep \
       bash \
+      s6 \
       su-exec \
       libxml2-utils \
       py2-pip \
@@ -40,3 +45,5 @@ ENV \
 ADD root /
 
 VOLUME /data
+
+CMD ["/bin/s6-svscan", "/etc/s6.d"]
