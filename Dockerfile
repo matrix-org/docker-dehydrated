@@ -35,6 +35,7 @@ ENV \
     DEHYDRATED_CA="https://acme-staging-v02.api.letsencrypt.org/directory" \
     DEHYDRATED_CHALLENGE="http-01" \
     DEHYDRATED_KEYSIZE="4096" \
+    DEHYDRATED_KEY_ALGO="rsa" \
     DEHYDRATED_HOOK="" \
     DEHYDRATED_RENEW_DAYS="30" \
     DEHYDRATED_KEY_RENEW="yes" \
