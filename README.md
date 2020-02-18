@@ -38,8 +38,8 @@ This defaults to `4096`, but you could also put `2048` or `3072` here, if you wa
 less secure but slightly faster keys. This only makes sense if your host or your clients
 are *very slow*.
 - `DEHYDRATED_KEY_ALGO`:
-This defaults to `rsa` but you could also put `prime256v1` or `secp384r1` here. You
-will want to change `DEHYDRATED_KEYSIZE` if you do so.
+This defaults to `rsa` but you could also put `prime256v1` or `secp384r1` here.
+`DEHYDRATED_KEYSIZE` is only relevant for `rsa` certs, but still controls the acocunt key size.
 - `DEHYDRATED_HOOK`:
 If you use the `dns-01` challenge, you need to supply a hook script,
 which dehydrated will use to set dns records. The container ships with
