@@ -71,6 +71,7 @@ function deploy_cert {
     echo "deploy_cert called: ${DOMAIN}, ${KEYFILE}, ${CERTFILE}, ${FULLCHAINFILE}, ${CHAINFILE}"
 
     cat ${FULLCHAINFILE} ${KEYFILE} > $(dirname ${CERTFILE})/combined.pem
+    chmod 'u=rw,g=r,o=' "${KEYFILE}" "${CERTFILE}" "${FULLCHAINFILE}" "${CHAINFILE}" "$(dirname ${CERTFILE})/combined.pem"
 
     # This hook is called once for each certificate that has been
     # produced. Here you might, for instance, copy your new certificates
