@@ -1,4 +1,4 @@
-FROM docker.io/alpine:3.8
+FROM docker.io/alpine:3.11
 LABEL maintainer="Jan Christian Grünhage <jcgruenhage@matrix.org>"
 
 ENV UID=1337 \
@@ -24,7 +24,7 @@ RUN apk add --no-cache \
       libxml2-utils \
       py2-pip \
       python3 \
- && mkdir /opt \
+ && mkdir -p /opt \
  && git clone https://github.com/lukas2511/dehydrated.git /opt/dehydrated \
  && pip3 install requests[security] \
  && pip3 install dns-lexicon \
@@ -35,6 +35,7 @@ ENV \
     DEHYDRATED_CA="https://acme-staging-v02.api.letsencrypt.org/directory" \
     DEHYDRATED_CHALLENGE="http-01" \
     DEHYDRATED_KEYSIZE="4096" \
+    DEHYDRATED_KEY_ALGO="rsa" \
     DEHYDRATED_HOOK="" \
     DEHYDRATED_RENEW_DAYS="30" \
     DEHYDRATED_KEY_RENEW="yes" \
